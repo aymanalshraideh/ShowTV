@@ -82,7 +82,7 @@
         }
     });
 
-    // إغلاق القائمة عند الضغط خارجها
+
     $(document).on('click', function(e) {
         if (!$(e.target).closest('#search, #search-results').length) {
             $('#search-results').hide();

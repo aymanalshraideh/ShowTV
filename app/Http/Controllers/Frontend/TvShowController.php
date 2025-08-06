@@ -20,4 +20,5 @@ class TvShowController extends Controller
         // dd($tvShow);
         return view('tvshows.index', compact('tvShow'));
     }
+
 }

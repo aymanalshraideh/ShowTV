@@ -14,13 +14,11 @@ class TvShowService
         $this->tvShowRepo = $tvShowRepo;
     }
 
-    public function followShow($tvShowId, $userId)
+    public function toggleFollow($tvShowId, $userId)
     {
-        $user = User::findOrFail($userId);
-        $user->follows()->toggle($tvShowId);
-        return ['status' => 'success', 'message' => 'Follow status updated'];
+        return $this->tvShowRepo->toggleFollow($tvShowId, $userId);
     }
-    public function getAllTvShows($limit=10)
+    public function getAllTvShows($limit = 10)
     {
         return $this->tvShowRepo->getLastTvShows($limit);
     }

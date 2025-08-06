@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\User;
 use App\Models\TvShow;
 
 class TvShowRepository
@@ -10,7 +11,7 @@ class TvShowRepository
     {
         return TvShow::with('episodes')->get();
     }
-    public function getLastTvShows($limit=10)
+    public function getLastTvShows($limit = 10)
     {
         return TvShow::latest()->take($limit)->get();
     }
@@ -41,5 +42,13 @@ class TvShowRepository
             ->orWhere('description', 'like', "%{$query}%")
             ->limit(10)
             ->get();
+    }
+
+    public function toggleFollow($tvShowId, $userId)
+    {
+        $user = User::findOrFail($userId);
+        $user->follows()->toggle($tvShowId);
+
+        return $user->follows->contains($tvShowId);
     }
 }

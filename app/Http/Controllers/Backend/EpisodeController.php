@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Models\Episode;
 use Illuminate\Http\Request;
 use App\Services\EpisodeService;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class EpisodeController extends Controller
 {
@@ -97,6 +100,10 @@ class EpisodeController extends Controller
     }
     public function like($id)
     {
-        return response()->json($this->episodeService->likeEpisode($id, auth()->id()));
+        $status = $this->episodeService->toggleLike($id, Auth::id());
+
+        return response()->json([
+            'status' => $status ? 'like' : 'unlike'
+        ]);
     }
 }

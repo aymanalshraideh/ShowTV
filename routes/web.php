@@ -20,13 +20,16 @@ use App\Http\Controllers\Frontend\SearchController;
 |
 */
 
-Route::get('/', [HomeController::class,'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/tvshows/{id}', [TvShowFE::class, 'index'])->name('tvshows.show');
 Route::get('/episodes/{id}', [EpisodeFE::class, 'show'])->name('episodes.show');
 Route::get('/search', [SearchController::class, 'search'])->name('search');
+
+
+
 Route::middleware(['auth'])->group(function () {
     Route::resource('tvshows', TvShowController::class);
-    Route::post('tvshows/{id}/follow', [TvShowController::class, 'follow']);
+ Route::post('tvshows/{id}/follow', [TvShowController::class, 'follow'])->name('tvshows.follow');
 
     Route::resource('episodes', EpisodeController::class);
     Route::post('episodes/{id}/like', [EpisodeController::class, 'like']);
@@ -41,4 +44,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

@@ -6,8 +6,8 @@
                     <div class="col-12">
                         <div class="header__content">
                             <!-- header logo -->
-                            <a href="index.html" class="header__logo">
-                                <img src="frontend-asset/img/logo.svg" alt="">
+                            <a href="{{ route('home') }}" class="header__logo">
+                                <img src="{{ asset('frontend-asset/img/logo.png') }}" alt="">
                             </a>
                             <!-- end header logo -->
 
@@ -54,7 +54,7 @@
                                     <i class="icon ion-ios-search"></i>
                                 </button>
 
-                                <a href="signin.html" class="header__sign-in">
+                                <a href="{{ route('login') }}" class="header__sign-in">
                                     <i class="icon ion-ios-log-in"></i>
                                     <span>sign in</span>
                                 </a>

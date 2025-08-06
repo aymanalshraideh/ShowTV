@@ -16,19 +16,27 @@
 
                             <div class="col-12 col-sm-8">
                                 <div class="card__content">
-                                    <h3 class="card__title"><a href="#">{{ $tvShow->title }}</a></h3>
+                                    <div class="d-flex justify-content-between align-items-center" style="width: 100%">
+                                        <div><h3 class="card__title"><a href="#">{{ $tvShow->title }}</a></h3></div>
+                                        <div>
+                                              <button class="follow-btn section__btn" style="cursor:pointer;"
+                                            data-id="{{ $tvShow->id }}"
+                                            data-auth="{{ auth()->check() ? 'true' : 'false' }}">
+                                            Follow
+                                        </button>
+                                        </div>
+
+
+                                    </div>
+
                                     <span class="card__category">
                                         <a href="#"><strong>Airing Time: {{ $tvShow->airing_time }}</strong> </a>
 
                                     </span>
 
                                     <div class="card__wrap">
-                                        <span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
 
-                                        <ul class="card__list">
-                                            <li>HD</li>
-                                            <li>16+</li>
-                                        </ul>
+
                                     </div>
 
                                     <div class="card__description">
@@ -45,7 +53,7 @@
             </div>
         </div>
     </div>
-    <section class="section section--bg" data-bg="img/section/section.jpg">
+    <section class="section section--bg" data-bg="{{ asset('frontend-asset/img/section/section.jpg') }}">
         <div class="container">
             <div class="row">
                 <!-- section title -->
@@ -59,12 +67,13 @@
                         <div class="card">
                             <div class="card__cover">
                                 <img src="{{ asset($item->thumbnail) }}" alt="">
-                                <a href="{{ route('episodes.show',$item->id) }}" class="card__play">
+                                <a href="{{ route('episodes.show', $item->id) }}" class="card__play">
                                     <i class="icon ion-ios-play"></i>
                                 </a>
                             </div>
                             <div class="card__content">
-                                <h3 class="card__title"><a href="{{ route('episodes.show',$item->id) }}">{{ $item->title }}</a></h3>
+                                <h3 class="card__title"><a
+                                        href="{{ route('episodes.show', $item->id) }}">{{ $item->title }}</a></h3>
                                 <span class="card__category">
                                     <a href="#">Duration: {{ $item->duration }}</a>
                                     <a href="#">Airing: {{ $item->airing_time }}</a>
@@ -81,3 +90,33 @@
         </div>
     </section>
 @endsection
+@push('scripts')
+    <script>
+        $(document).on('click', '.follow-btn', function(e) {
+            e.preventDefault(); 
+
+            let tvShowId = $(this).data('id');
+            let isAuth = $(this).data('auth');
+            let btn = $(this);
+
+            if (isAuth !== true) {
+                window.location.href = "{{ route('login') }}";
+                return;
+            }
+            $.ajax({
+                url: `/tvshows/${tvShowId}/follow`,
+                method: 'POST',
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(data) {
+                    btn.text(data.status === 'followed' ? 'Unfollow' : 'Follow');
+                },
+                error: function(data) {
+                    console.log(data);
+                }
+            });
+
+        });
+    </script>
+@endpush

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Backend;
 
 use Illuminate\Http\Request;
 use App\Services\TvShowService;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class TvShowController extends Controller
 {
@@ -12,7 +14,7 @@ class TvShowController extends Controller
     public function __construct(TvShowService $tvShowService)
     {
         $this->tvShowService = $tvShowService;
-        $this->middleware('auth');
+
     }
 
     /**
@@ -91,6 +93,10 @@ class TvShowController extends Controller
     }
     public function follow($id)
     {
-        return response()->json($this->tvShowService->followShow($id, auth()->id()));
+        $status = $this->tvShowService->toggleFollow($id, Auth::id());
+
+        return response()->json([
+            'status' => $status ? 'followed' : 'unfollowed'
+        ]);
     }
 }

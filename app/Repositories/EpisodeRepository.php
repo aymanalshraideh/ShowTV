@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\User;
 use App\Models\Episode;
 
 class EpisodeRepository
@@ -46,5 +47,12 @@ class EpisodeRepository
             ->latest()
             ->take($limit)
             ->get();
+    }
+    public function toggleLike($episodeId, $userId)
+    {
+        $user = User::findOrFail($userId);
+        $user->likes()->toggle($episodeId);
+
+        return $user->likes->contains($episodeId);
     }
 }

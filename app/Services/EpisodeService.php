@@ -14,11 +14,9 @@ class EpisodeService
         $this->episodeRepo = $episodeRepo;
     }
 
-    public function likeEpisode($episodeId, $userId)
+    public function toggleLike($episodeId, $userId)
     {
-        $user = User::findOrFail($userId);
-        $user->likes()->toggle($episodeId);
-        return ['status' => 'success', 'message' => 'Like status updated'];
+        return $this->episodeRepo->toggleLike($episodeId, $userId);
     }
     public function getEpisodeById($id)
     {
