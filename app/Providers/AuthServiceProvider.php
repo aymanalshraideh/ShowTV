@@ -2,7 +2,11 @@
 
 namespace App\Providers;
 
-// use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Gate;
+use App\Models\TvShow;
+use App\Models\Episode;
+use App\Policies\TvShowPolicy;
+use App\Policies\EpisodePolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -13,7 +17,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        //
+        TvShow::class => TvShowPolicy::class,
+        Episode::class => EpisodePolicy::class,
     ];
 
     /**
@@ -21,6 +26,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Gate::define('manage-users', function (User $user) {
+            return $user->role->name === 'admin';
+        });
     }
 }

@@ -5,16 +5,16 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600%7CUbuntu:300,400,500,700" rel="stylesheet">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="frontend-asset/css/bootstrap-reboot.min.css">
-    <link rel="stylesheet" href="frontend-asset/css/bootstrap-grid.min.css">
-    <link rel="stylesheet" href="frontend-asset/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="frontend-asset/css/jquery.mCustomScrollbar.min.css">
-    <link rel="stylesheet" href="frontend-asset/css/nouislider.min.css">
-    <link rel="stylesheet" href="frontend-asset/css/ionicons.min.css">
-    <link rel="stylesheet" href="frontend-asset/css/plyr.css">
-    <link rel="stylesheet" href="frontend-asset/css/photoswipe.css">
-    <link rel="stylesheet" href="frontend-asset/css/default-skin.css">
-    <link rel="stylesheet" href="frontend-asset/css/main.css">
+    <link rel="stylesheet" href="{{ asset('frontend-asset/css/bootstrap-reboot.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend-asset/css/bootstrap-grid.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend-asset/css/owl.carousel.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend-asset/css/jquery.mCustomScrollbar.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend-asset/css/nouislider.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend-asset/css/ionicons.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend-asset/css/plyr.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend-asset/css/photoswipe.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend-asset/css/default-skin.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend-asset/css/main.css') }}">
 
     <!-- Favicons -->
     <link rel="icon" type="image/png" href="icon/favicon-32x32.png" sizes="32x32">

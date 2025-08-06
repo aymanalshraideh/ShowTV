@@ -1,7 +1,7 @@
     <!-- header -->
     <header class="header">
         <div class="header__wrap">
-            <div class="container">
+            <div class="container" style="    max-width: 100%;">
                 <div class="row">
                     <div class="col-12">
                         <div class="header__content">
@@ -15,40 +15,21 @@
                             <ul class="header__nav">
                                 <!-- dropdown -->
                                 <li class="header__nav-item">
-                                    <a class="dropdown-toggle header__nav-link" href="#" role="button"
-                                        id="dropdownMenuHome" data-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false">Home</a>
-
-                                    <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuHome">
-                                        <li><a href="index.html">Home slideshow bg</a></li>
-                                        <li><a href="index2.html">Home static bg</a></li>
-                                    </ul>
+                                    <a href="{{ route('home') }}" class="header__nav-link">Home</a>
                                 </li>
+
+
+                                @foreach ($tvShowsNav as $item)
+                                    <li class="header__nav-item">
+                                        <a href="{{ route('tvshows.show', $item->id) }}" class="header__nav-link">
+                                            {{ $item->title }}
+                                        </a>
+                                    </li>
+                                @endforeach
+
                                 <!-- end dropdown -->
 
-                                <!-- dropdown -->
-                                <li class="header__nav-item">
-                                    <a class="dropdown-toggle header__nav-link" href="#" role="button"
-                                        id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false">Catalog</a>
 
-                                    <ul class="dropdown-menu header__dropdown-menu"
-                                        aria-labelledby="dropdownMenuCatalog">
-                                        <li><a href="catalog1.html">Catalog Grid</a></li>
-                                        <li><a href="catalog2.html">Catalog List</a></li>
-                                        <li><a href="details1.html">Details Movie</a></li>
-                                        <li><a href="details2.html">Details TV Series</a></li>
-                                    </ul>
-                                </li>
-                                <!-- end dropdown -->
-
-                                <li class="header__nav-item">
-                                    <a href="pricing.html" class="header__nav-link">Pricing Plan</a>
-                                </li>
-
-                                <li class="header__nav-item">
-                                    <a href="faq.html" class="header__nav-link">Help</a>
-                                </li>
 
                                 <!-- dropdown -->
                                 <li class="dropdown header__nav-item">
@@ -99,14 +80,20 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="header__search-content">
-                            <input type="text" placeholder="Search for a movie, TV Series that you are looking for">
+                            <input type="text" id="search"
+                                placeholder="Search for a Episode , TV Series that you are looking for">
 
-                            <button type="button">search</button>
                         </div>
+                        <div id="search-results"
+                            style="background:white; border:1px solid #ccc;position:fixed; z-index:1000; width:80%;display:none; max-height:300px; overflow-y:auto;">
+                        </div>
+
+
                     </div>
                 </div>
             </div>
         </form>
+
         <!-- end header search -->
     </header>
     <!-- end header -->
