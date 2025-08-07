@@ -9,6 +9,13 @@
                    </a>
                </li>
                <li class="nav-item">
+                   <a class="nav-link {{ request()->routeIs('admin.users.index') ? 'active' : '' }}"
+                       href="{{ route('admin.users.index') }}">
+                       <span data-feather="file"></span>
+                       Users
+                   </a>
+               </li>
+               <li class="nav-item">
                    <a class="nav-link {{ request()->routeIs('tv-shows') ? 'active' : '' }}"
                        href="{{ route('tv-shows') }}">
                        <span data-feather="file"></span>

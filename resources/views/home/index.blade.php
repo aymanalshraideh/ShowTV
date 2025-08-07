@@ -20,8 +20,8 @@
                             <div class="item">
                                 <!-- card -->
                                 <div class="card card--big">
-                                    <div class="card__cover">
-                                        <img src="{{ asset($item->thumbnail) }}" alt="">
+                                    <div class="card__cover" style="height: 200px">
+                                        <img src="{{ asset($item->thumbnail) }}" style="height: 100%" alt="">
                                         <a href="{{ route('tvshows.show', $item->id) }}" class="card__play">
                                             <i class="icon ion-ios-link"></i>
 

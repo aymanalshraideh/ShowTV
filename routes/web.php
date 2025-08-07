@@ -9,6 +9,7 @@ use App\Http\Controllers\Frontend\EpisodeController as EpisodeFE;
 use App\Http\Controllers\Backend\EpisodeController;
 use App\Http\Controllers\Frontend\SearchController;
 use App\Models\TvShow;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,7 +43,14 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
         return view('dashboard.home.index');
     })->name('dashboard');
 
-    //
+
+    Route::get('/users', function () {
+
+        $users = User::with('role')->paginate(10);
+        return view('dashboard.users.index', compact('users'));
+    })->name('admin.users.index');
+
+
     Route::get('/tv-shows', function () {
         return view('dashboard.tvshows.index');
     })->name('tv-shows');
@@ -52,9 +60,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
         $tvshows = TvShow::all();
         return view('dashboard.episodes.index', compact('tvshows'));
     })->name('episodess-page');
-
-
-    Route::get('/users', [UserController::class, 'index'])->name('admin.users.index');
 
 
     Route::resource('tvshows', TvShowController::class)->names('tvsh');
