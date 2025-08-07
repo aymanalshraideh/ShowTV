@@ -31,20 +31,7 @@
 
 
 
-                                <!-- dropdown -->
-                                <li class="dropdown header__nav-item">
-                                    <a class="dropdown-toggle header__nav-link header__nav-link--more" href="#"
-                                        role="button" id="dropdownMenuMore" data-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false"><i class="icon ion-ios-more"></i></a>
-
-                                    <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
-                                        <li><a href="about.html">About</a></li>
-                                        <li><a href="signin.html">Sign In</a></li>
-                                        <li><a href="signup.html">Sign Up</a></li>
-                                        <li><a href="404.html">404 Page</a></li>
-                                    </ul>
-                                </li>
-                                <!-- end dropdown -->
+          
                             </ul>
                             <!-- end header nav -->
 
@@ -54,10 +41,22 @@
                                     <i class="icon ion-ios-search"></i>
                                 </button>
 
-                                <a href="{{ route('login') }}" class="header__sign-in">
-                                    <i class="icon ion-ios-log-in"></i>
-                                    <span>sign in</span>
-                                </a>
+                                @auth
+
+                                    <form method="POST" action="{{ route('logout') }}">
+                                        @csrf
+                                        <a class="header__sign-in" href="{{ route('logout') }}"
+                                            onclick="event.preventDefault(); this.closest('form').submit();">
+                                            <span> Log Out</span>
+                                        </a>
+                                    </form>
+                                @else
+                                    <a href="{{ route('login') }}" class="header__sign-in">
+                                        <i class="icon ion-ios-log-in"></i>
+                                        <span>sign in</span>
+                                    </a>
+                                @endauth
+
                             </div>
                             <!-- end header auth -->
 

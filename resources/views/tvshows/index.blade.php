@@ -31,6 +31,7 @@
 
                                     <span class="card__category">
                                         <a href="#"><strong>Airing Time: {{ $tvShow->airing_time }}</strong> </a>
+                                        <a href="#"><strong>Type: {{ $tvShow->type }}</strong> </a>
 
                                     </span>
 
@@ -93,7 +94,7 @@
 @push('scripts')
     <script>
         $(document).on('click', '.follow-btn', function(e) {
-            e.preventDefault(); 
+            e.preventDefault();
 
             let tvShowId = $(this).data('id');
             let isAuth = $(this).data('auth');

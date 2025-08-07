@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class TvShow extends Model
 {
-    protected $fillable = ['title', 'description', 'airing_time'];
+    protected $fillable = ['title', 'description', 'airing_time','thumbnail','type'];
 
     public function episodes()
     {

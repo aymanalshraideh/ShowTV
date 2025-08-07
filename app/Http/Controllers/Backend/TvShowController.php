@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Models\TvShow;
 use Illuminate\Http\Request;
 use App\Services\TvShowService;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\StoreTvShowRequest;
 
 class TvShowController extends Controller
 {
@@ -14,17 +16,22 @@ class TvShowController extends Controller
     public function __construct(TvShowService $tvShowService)
     {
         $this->tvShowService = $tvShowService;
-
     }
 
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $this->authorize('viewAny', TvShow::class);
-        return response()->json($this->tvShowService->tvShowRepo->all());
+
+        $perPage = $request->query('per_page', 10);
+        $search = $request->query('search', '');
+
+        $tvShows = $this->tvShowService->getPaginatedTvShows($perPage, $search);
+        return response()->json($tvShows);
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -37,18 +44,21 @@ class TvShowController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreTvShowRequest $request)
     {
         $this->authorize('create', TvShow::class);
 
-        $data = $request->validate([
-            'title' => 'required|string',
-            'description' => 'required|string',
-            'airing_time' => 'required|string'
-        ]);
+        $data = $request->validated();
+
+        if ($request->hasFile('thumbnail')) {
+            $path = $request->file('thumbnail')->store('thumbnails', 'public');
+            $data['thumbnail'] = 'storage/' . $path;
+        }
 
         return response()->json($this->tvShowService->createShow($data));
     }
+
+
 
     /**
      * Display the specified resource.
@@ -70,18 +80,20 @@ class TvShowController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(UpdateTvShowRequest $request, $id)
     {
         $this->authorize('update', TvShow::findOrFail($id));
 
-        $data = $request->validate([
-            'title' => 'required|string',
-            'description' => 'required|string',
-            'airing_time' => 'required|string'
-        ]);
+        $data = $request->validated();
+
+        if ($request->hasFile('thumbnail')) {
+            $path = $request->file('thumbnail')->store('thumbnails', 'public');
+            $data['thumbnail'] = 'storage/' . $path;
+        }
 
         return response()->json($this->tvShowService->updateShow($id, $data));
     }
+
 
     /**
      * Remove the specified resource from storage.

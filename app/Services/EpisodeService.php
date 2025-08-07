@@ -18,6 +18,11 @@ class EpisodeService
     {
         return $this->episodeRepo->toggleLike($episodeId, $userId);
     }
+    public function getPaginatedEpisodes($perPage = 10, $search = '')
+    {
+        return $this->episodeRepo->paginate($perPage, $search);
+    }
+
     public function getEpisodeById($id)
     {
         return $this->episodeRepo->find($id);

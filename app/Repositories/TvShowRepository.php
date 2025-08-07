@@ -11,6 +11,13 @@ class TvShowRepository
     {
         return TvShow::with('episodes')->get();
     }
+    public function paginateWithSearch($perPage = 10, $search = '')
+    {
+        return TvShow::when($search, function ($query) use ($search) {
+            $query->where('title', 'like', "%$search%");
+        })->orderByDesc('created_at')->paginate($perPage);
+    }
+
     public function getLastTvShows($limit = 10)
     {
         return TvShow::latest()->take($limit)->get();

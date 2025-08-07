@@ -18,6 +18,11 @@ class TvShowService
     {
         return $this->tvShowRepo->toggleFollow($tvShowId, $userId);
     }
+    public function getPaginatedTvShows($perPage = 10, $search = '')
+    {
+        return $this->tvShowRepo->paginateWithSearch($perPage, $search);
+    }
+
     public function getAllTvShows($limit = 10)
     {
         return $this->tvShowRepo->getLastTvShows($limit);

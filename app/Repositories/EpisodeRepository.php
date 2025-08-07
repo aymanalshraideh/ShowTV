@@ -9,7 +9,20 @@ class EpisodeRepository
 {
     public function all()
     {
-        return Episode::with('tvShow')->get();
+        return Episode::with('tvShow')->latest()->get();
+    }
+    public function paginate($perPage = 10, $search = '')
+    {
+        $query = Episode::with('tvShow');
+
+        if (!empty($search)) {
+            $query->where('title', 'like', "%{$search}%")
+                ->orWhereHas('tvShow', function ($q) use ($search) {
+                    $q->where('title', 'like', "%{$search}%");
+                });
+        }
+
+        return $query->latest()->paginate($perPage);
     }
 
     public function find($id)

@@ -8,6 +8,7 @@ use App\Http\Controllers\Frontend\TvShowController as TvShowFE;
 use App\Http\Controllers\Frontend\EpisodeController as EpisodeFE;
 use App\Http\Controllers\Backend\EpisodeController;
 use App\Http\Controllers\Frontend\SearchController;
+use App\Models\TvShow;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,20 +29,45 @@ Route::get('/search', [SearchController::class, 'search'])->name('search');
 
 
 Route::middleware(['auth'])->group(function () {
-    Route::resource('tvshows', TvShowController::class);
- Route::post('tvshows/{id}/follow', [TvShowController::class, 'follow'])->name('tvshows.follow');
 
-    Route::resource('episodes', EpisodeController::class);
+    Route::post('tvshows/{id}/follow', [TvShowController::class, 'follow'])->name('tvshows.follow');
+
+
     Route::post('episodes/{id}/like', [EpisodeController::class, 'like']);
 });
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/dashboard', function () {
+        return view('dashboard.home.index');
+    })->name('dashboard');
+
+    //
+    Route::get('/tv-shows', function () {
+        return view('dashboard.tvshows.index');
+    })->name('tv-shows');
+
+
+    Route::get('/episodess', function () {
+        $tvshows = TvShow::all();
+        return view('dashboard.episodes.index', compact('tvshows'));
+    })->name('episodess-page');
+
+
+    Route::get('/users', [UserController::class, 'index'])->name('admin.users.index');
+
+
+    Route::resource('tvshows', TvShowController::class)->names('tvsh');
+
+
+    Route::resource('episodes', EpisodeController::class)->names('epis');
 });
+
+
+// Route::middleware('auth')->group(function () {
+//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// });
 
 require __DIR__ . '/auth.php';

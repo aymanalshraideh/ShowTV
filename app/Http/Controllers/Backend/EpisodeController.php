@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Services\EpisodeService;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\StoreEpisodeRequest;
+use App\Http\Requests\UpdateEpisodeRequest;
 
 class EpisodeController extends Controller
 {
@@ -15,16 +17,23 @@ class EpisodeController extends Controller
     public function __construct(EpisodeService $episodeService)
     {
         $this->episodeService = $episodeService;
-        $this->middleware('auth');
     }
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $this->authorize('viewAny', Episode::class);
-        return response()->json($this->episodeService->episodeRepo->all());
+
+        $perPage = $request->query('per_page', 10);
+        $search = $request->query('search');
+
+        $episodes = $this->episodeService->getPaginatedEpisodes($perPage, $search);
+
+        return response()->json($episodes);
     }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -37,22 +46,20 @@ class EpisodeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreEpisodeRequest $request)
     {
         $this->authorize('create', Episode::class);
 
-        $data = $request->validate([
-            'tv_show_id' => 'required|exists:tv_shows,id',
-            'title' => 'required|string',
-            'description' => 'required|string',
-            'duration' => 'required|string',
-            'airing_time' => 'required|string',
-            'thumbnail' => 'nullable|string',
-            'video_url' => 'required|string'
-        ]);
+        $data = $request->validated();
+
+        if ($request->hasFile('thumbnail')) {
+            $path = $request->file('thumbnail')->store('thumbnails', 'public');
+            $data['thumbnail'] = 'storage/' . $path;
+        }
 
         return response()->json($this->episodeService->createEpisode($data));
     }
+
 
     /**
      * Display the specified resource.
@@ -74,21 +81,20 @@ class EpisodeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(UpdateEpisodeRequest $request, $id)
     {
         $this->authorize('update', Episode::findOrFail($id));
 
-        $data = $request->validate([
-            'title' => 'required|string',
-            'description' => 'required|string',
-            'duration' => 'required|string',
-            'airing_time' => 'required|string',
-            'thumbnail' => 'nullable|string',
-            'video_url' => 'required|string'
-        ]);
+        $data = $request->validated();
+
+        if ($request->hasFile('thumbnail')) {
+            $path = $request->file('thumbnail')->store('thumbnails', 'public');
+            $data['thumbnail'] = 'storage/' . $path;
+        }
 
         return response()->json($this->episodeService->updateEpisode($id, $data));
     }
+
 
     /**
      * Remove the specified resource from storage.

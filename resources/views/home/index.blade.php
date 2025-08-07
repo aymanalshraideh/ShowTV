@@ -22,16 +22,21 @@
                                 <div class="card card--big">
                                     <div class="card__cover">
                                         <img src="{{ asset($item->thumbnail) }}" alt="">
-                                        <a href="{{ route('tvshows.show',$item->id) }}" class="card__play">
-                                           <i class="icon ion-ios-link"></i>
+                                        <a href="{{ route('tvshows.show', $item->id) }}" class="card__play">
+                                            <i class="icon ion-ios-link"></i>
 
                                         </a>
                                     </div>
                                     <div class="card__content">
-                                        <h3 class="card__title"><a href="{{ route('tvshows.show',$item->id) }}">{{ $item->title }}</a></h3>
+                                        <h3 class="card__title"><a
+                                                href="{{ route('tvshows.show', $item->id) }}">{{ $item->title }}</a></h3>
                                         <span class="card__category">
 
-                                    <a href="#">Airing: {{ $item->airing_time }}</a>
+                                            <a href="#">Airing: {{ $item->airing_time }}</a>
+                                            <div>
+                                                <p href="#" class="text-white" style="color: white">Type:{{ $item->type }}</p>
+                                            </div>
+
                                         </span>
 
                                     </div>
@@ -73,7 +78,8 @@
                                         <div class="col-12 col-sm-4">
                                             <div class="card__cover">
                                                 <img src="{{ asset($episode->thumbnail) }}" alt="{{ $episode->title }}">
-                                                <a href="{{ route('episodes.show',$episode->id) }}" class="card__play" target="_blank">
+                                                <a href="{{ route('episodes.show', $episode->id) }}" class="card__play"
+                                                    target="_blank">
                                                     <i class="icon ion-ios-play"></i>
                                                 </a>
                                             </div>
@@ -81,13 +87,16 @@
 
                                         <div class="col-12 col-sm-8">
                                             <div class="card__content">
-                                                <h3 class="card__title"><a href="{{ route('episodes.show',$episode->id) }}">{{ $episode->title }}</a></h3>
+                                                <h3 class="card__title"><a
+                                                        href="{{ route('episodes.show', $episode->id) }}">{{ $episode->title }}</a>
+                                                </h3>
                                                 <span class="card__category">
 
                                                     <a href="#">Duration: {{ $episode->duration }}</a>
                                                     <a href="#">Airing: {{ $episode->airing_time }}</a>
-                                                    <a href="{{ route('tvshows.show',$episode->tvShow->id) }}">Tv Show: <span
-                                                            style="color: white">{{ $episode->tvShow->title }}</span> </a>
+                                                    <a href="{{ route('tvshows.show', $episode->tvShow->id) }}">Tv Show:
+                                                        <span style="color: white">{{ $episode->tvShow->title }}</span>
+                                                    </a>
                                                 </span>
 
                                                 <div class="card__wrap">
